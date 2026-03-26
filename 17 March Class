@@ -1,0 +1,6 @@
+fruits = ["Apple", "Mango", "Papaya", "Orange", "Kiwi"]
+print (fruits[0]) #printing the first fruit
+fruits.append ("cherry") #adding at the end
+print (fruits) 
+fruits.insert(2,"cucumber") #adding into a specific location
+print(fruits[2:5:2]) #slicing the list
