@@ -1,0 +1,89 @@
+"""
+def greet():                              # declaration of a function
+    name = input("Enter your name: ")     #Body of the declaration
+    print (f"Hello {name}!")
+greet()                                   #Calling the function
+
+---------------------------------------------------------------------------------------------------------------------------
+
+def get_name():                              
+    name = input("Enter your name: ")   
+    return name                           # Returns the function
+
+def greet(name):
+    print (f"Hello {name}!")
+
+username = get_name()        # Function Call
+greet(username)                # Arguement  or Positional parameters
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+def get_name() -> str:     # Defining a type in                          
+    name = input("Enter your name: ")   
+    return name              
+
+def get_home() -> str:       # Defining a type in  
+    home = input("Where are you from: ")
+    return home
+
+def greet(name: str,home : str = "The moon"):                # Defining a type in  
+    print (f"Hello {name}!. I have never been to {home}")
+
+
+username = get_name()       
+userhome = get_home()
+#userhome = "India"
+greet(username,userhome)      
+
+"""
+"""
+def avg_temp(id: str, *args: float) -> float:       # * - one star for positional collectors
+    total = 0.0
+
+    for  item in args:
+        total += item
+    
+    print (f"Accumulative temps for {id} is {total}")
+    average = total / len(args)
+    return average
+
+print (avg_temp("February temp: ", 12.5, 34.8, 27.32))
+
+
+
+def configure_laptop(**kwargs: dict):
+    print ("Your laptop configuration will be: ")
+
+    for k, v in kwargs.items():
+        print (f"   {k}: {v}")
+        
+configure_laptop (Manufacturer = "Asus", Size = "17", processor = "Intel core 13th Gen", memory = "245GB")
+
+
+
+def fn (a, / , b , c=3, *pc, e = 5 , **kc):
+    print (f"a={a}, b= {b} , c= {c}, pc= {pc}, e = {e}, kc= {kc}")
+
+fn(0,1,2,3,4, 5, f= 6, g = 7)
+
+"""
+
+username = ""          #Global variable
+userhome = ""          #Global variable
+
+def get_name() -> str:     # Defining a type in        #Local variable                   
+    name = input("Enter your name: ")   
+    return name              
+
+def get_home() -> str:       # Defining a type in    #Local Variable
+    home = input("Where are you from: ")
+    return home
+
+def greet(name: str,home : str = "The moon"):                # Defining a type in  
+    print (f"Hello {name}!. I have never been to {home}")
+
+
+username = get_name()       
+userhome = get_home()
+#userhome = "India"
+greet(username,userhome)    
