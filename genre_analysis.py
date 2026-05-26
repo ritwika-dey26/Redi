@@ -95,4 +95,24 @@ def dashboard():
     fig = px.bar(df, x='platform', y='total_titles', color='avg_imdb', title='Total Titles by Platform (Color by Avg IMDb)')
     st.plotly_chart(fig)
     
+    st.subheader("Platform Quality Analysis")
+    df2 = pd.DataFrame(fetch_platform_quality())
+    fig2 = px.bar(df2, x='platform', y='avg_imdb', color = "total_awards",title='Platform Quality Analysis (Avg IMDb by Platform)')
+    st.plotly_chart(fig2)
     
+    st.subheader("Content Growth Over Time")
+    df3 = pd.DataFrame(fetch_yearly_trends())
+    fig3a = px.line(df3, x='release_year', y='total_titles', markers=True, title='Content Growth Over Time')
+    st.plotly_chart(fig3a)
+    
+    fig3b = px.line(df3, x="release_year",y=["movies", "tv_shows"], markers=True, title="Movies vs TV Shows Over Time")
+    st.plotly_chart(fig3b)
+    
+    st.subheader("Country Content Analysis")
+    df4 = pd.DataFrame(fetch_country_summary())
+    fig4 = px.bar(df4, x='total_titles', y='country', orientation='h', color='avg_imdb', title='Top Countries by Content Output')
+    st.plotly_chart(fig4)
+    fig5 = px.bar(df4, x = "country", y = "avg_imdb", color = "total_titles", title = "Country Quality Ranking")
+    st.plotly_chart(fig5)
+    
+dashboard()
