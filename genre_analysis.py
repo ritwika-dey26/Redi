@@ -72,7 +72,11 @@ def fetch_country_summary():
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
     sql = """
-        SELECT * FROM country_summary
+        SELECT country,
+        total_titles,
+        avg_imdb,
+        top_platform
+        FROM country_summary
         ORDER BY total_titles DESC
     """
     cursor.execute(sql)
@@ -80,13 +84,6 @@ def fetch_country_summary():
     cursor.close()
     conn.close()
     return rows
-
-"""
-rows = fetch_platform_summary()
-df = pd.DataFrame(rows)
-print(df)
-
-"""
 
 def dashboard():
     st.title("Platform Analysis Dashboard")
