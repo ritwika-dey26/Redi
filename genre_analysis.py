@@ -4,15 +4,21 @@ import streamlit as st
 import plotly.express as px
 
 def get_connection():
-    conn = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Ritwika@2026",
-        database="demo")
-    return conn
+    try:
+        conn = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="Ritwika@2026",
+            database="demo")
+        return conn
+    except mysql.connector.Error as e:
+        st.error(f"Error connecting to MySQL: {e}")
+        return None
 
 def fetch_platform_size():
     conn = get_connection()
+    if conn is None:
+        return []
     cursor = conn.cursor(dictionary=True)
     sql = """
         select platform, 
@@ -30,6 +36,8 @@ def fetch_platform_size():
 
 def fetch_platform_quality():
     conn = get_connection()
+    if conn is None:
+        return []
     cursor = conn.cursor(dictionary=True)
     sql = """
         select platform, 
@@ -51,6 +59,8 @@ def fetch_platform_quality():
 
 def fetch_yearly_trends():
     conn = get_connection()
+    if conn is None:
+        return []
     cursor = conn.cursor(dictionary=True)
     sql = """
         SELECT release_year,
@@ -70,6 +80,8 @@ def fetch_yearly_trends():
 
 def fetch_country_summary():
     conn = get_connection()
+    if conn is None:
+        return []
     cursor = conn.cursor(dictionary=True)
     sql = """
         SELECT country,
@@ -88,28 +100,43 @@ def fetch_country_summary():
 def dashboard():
     st.title("Platform Analysis Dashboard")
     st.subheader("Platform Size Analysis")
-    df = pd.DataFrame(fetch_platform_size())
-    fig = px.bar(df, x='platform', y='total_titles', color='avg_imdb', title='Total Titles by Platform (Color by Avg IMDb)')
-    st.plotly_chart(fig)
+    with st.spinner("Loading platform size data..."):
+        df = pd.DataFrame(fetch_platform_size())
+    if df.empty:
+        st.warning("No data available for platform size analysis.")
+    else:
+        fig = px.bar(df, x='platform', y='total_titles', color='avg_imdb', title='Total Titles by Platform (Color by Avg IMDb)')
+        st.plotly_chart(fig)
     
     st.subheader("Platform Quality Analysis")
-    df2 = pd.DataFrame(fetch_platform_quality())
-    fig2 = px.bar(df2, x='platform', y='avg_imdb', color = "total_awards",title='Platform Quality Analysis (Avg IMDb by Platform)')
-    st.plotly_chart(fig2)
+    with st.spinner("Loading platform quality data..."):
+        df2 = pd.DataFrame(fetch_platform_quality())
+    if df2.empty:
+        st.warning("No data available for platform quality analysis.")
+    else:
+        fig2 = px.bar(df2, x='platform', y='avg_imdb', color = "total_awards",title='Platform Quality Analysis (Avg IMDb by Platform)')
+        st.plotly_chart(fig2)
     
     st.subheader("Content Growth Over Time")
-    df3 = pd.DataFrame(fetch_yearly_trends())
-    fig3a = px.line(df3, x='release_year', y='total_titles', markers=True, title='Content Growth Over Time')
-    st.plotly_chart(fig3a)
-    
-    fig3b = px.line(df3, x="release_year",y=["movies", "tv_shows"], markers=True, title="Movies vs TV Shows Over Time")
-    st.plotly_chart(fig3b)
+    with st.spinner("Loading yearly trends data..."):
+        df3 = pd.DataFrame(fetch_yearly_trends())
+    if df3.empty:
+        st.warning("No data available for yearly trends analysis.")
+    else:
+        fig3a = px.line(df3, x='release_year', y='total_titles', markers=True, title='Content Growth Over Time')
+        st.plotly_chart(fig3a)
+        fig3b = px.line(df3, x="release_year",y=["movies", "tv_shows"], markers=True, title="Movies vs TV Shows Over Time")
+        st.plotly_chart(fig3b)
     
     st.subheader("Country Content Analysis")
-    df4 = pd.DataFrame(fetch_country_summary())
-    fig4 = px.bar(df4, x='total_titles', y='country', orientation='h', color='avg_imdb', title='Top Countries by Content Output')
-    st.plotly_chart(fig4)
-    fig5 = px.bar(df4, x = "country", y = "avg_imdb", color = "total_titles", title = "Country Quality Ranking")
-    st.plotly_chart(fig5)
+    with st.spinner("Loading country summary data..."):
+        df4 = pd.DataFrame(fetch_country_summary())
+    if df4.empty:
+        st.warning("No data available for country content analysis.")
+    else:
+        fig4 = px.bar(df4, x='total_titles', y='country', orientation='h', color='avg_imdb', title='Top Countries by Content Output')
+        st.plotly_chart(fig4)
+        fig5 = px.bar(df4, x = "country", y = "avg_imdb", color = "total_titles", title = "Country Quality Ranking")
+        st.plotly_chart(fig5)
     
 dashboard()
