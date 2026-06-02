@@ -37,5 +37,4 @@ Step 6 - Run Python - streamlit run genre_analysis.py
 
 http://localhost:8501 - This page will automatically open with the dashboards
 
-Author
 Ritwika Dey
