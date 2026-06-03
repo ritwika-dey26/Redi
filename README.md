@@ -37,4 +37,18 @@ Step 6 - Run Python - streamlit run genre_analysis.py
 
 http://localhost:8501 - This page will automatically open with the dashboards
 
+Real-World Applications:
+
+This type of analysis is used by:
+
+Streaming platforms — content strategy teams deciding which genres and markets to invest in
+
+Media potential investors — comparing platform growth and quality to evaluate investment
+
+Advertisers — identifying which platforms deliver the highest quality audience reach
+
+Entertainment journalists — writing data driven articles about the streaming industry
+
+Recommendation apps — helping users decide which platform oﬀers the best value
+
 Ritwika Dey
